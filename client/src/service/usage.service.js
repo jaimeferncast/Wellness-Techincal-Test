@@ -1,6 +1,6 @@
 import axios from "axios"
 
-class UsesService {
+class UsageService {
   constructor() {
     this.api = axios.create({
       baseURL: `${process.env.REACT_APP_API_URL}/uses`,
@@ -8,7 +8,7 @@ class UsesService {
     })
   }
 
-  getuses = () => this.api.get("/")
+  getUses = () => this.api.get("/")
 }
 
-export default UsesService
+export default UsageService
