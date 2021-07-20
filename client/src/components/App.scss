@@ -1,6 +1,6 @@
 main {
     min-height: 95vh;
-    padding-top: 7vh;
+    padding-top: 10vh;
     text-align: center;
 }
 
@@ -29,6 +29,16 @@ footer {
     }
 }
 
+.input {
+    display: inline;
+    width: 50px;
+    margin-right: 10px;
+    &.year {
+        width: 65px;
+        margin-left: 10px;
+    }
+}
+
 .btn-primary {
     background-color: #DDA15E;
     border: none;
@@ -37,6 +47,14 @@ footer {
         background-color: #BC6C25;
         color: #141b0c;
     }
+}
+
+.btn-sm {
+    margin-inline: 10px;
+}
+
+.form-label {
+    margin: 20px 10px 10px;
 }
 
 .container {

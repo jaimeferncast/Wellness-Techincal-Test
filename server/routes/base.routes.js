@@ -11,22 +11,23 @@ router.get('/', (req, res) => {
             res.status(500).json({
                 code: 500,
                 message: "Error fetching usage",
-                error: error.message,
+                error: error.message
             })
         )
 })
 
-router.get('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
 
-    // Phone.findById(req.params.id)
-    //     .then(phone => res.json({ message: phone }))
-    //     .catch((error) =>
-    //         res.status(500).json({
-    //             code: 500,
-    //             message: "Error buscando el teléfono seleccionado",
-    //             error: error.message,
-    //         })
-    //     )
+    Use.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        .then((response) => res.json(response))
+        .catch((err) => res.status(500).json({ ...err, message: err.message }))
+})
+
+router.delete('/:_id', (req, res) => {
+
+    Use.findByIdAndDelete(req.params._id)
+        .then((response) => res.json(response))
+        .catch((err) => res.status(500).json({ ...err, message: err.message }))
 })
 
 module.exports = router

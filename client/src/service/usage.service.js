@@ -9,6 +9,8 @@ class UsageService {
   }
 
   getUses = () => this.api.get("/")
+  editUse = (use, id) => this.api.put(`/${id}`, use)
+  deleteUse = (id) => this.api.delete(`/${id}`)
 }
 
 export default UsageService
