@@ -1,27 +1,22 @@
 main {
     min-height: 95vh;
-    background-color: #283618;
+    background-color: #2d2d2d;
     color: #FEFAE0;
     padding-top: 7vh;
+    text-align: center;
 }
 
-h1, h2, .h5 {
+h6 {
     font-weight: 200;
 }
 
 .navbar {
-    background-color: #DDA15E;
-    img {
-        text-decoration: none;
-        height: 32px;
-        margin-bottom: 5px;
-        margin-right: -3px;
-    }
+    background-color: #c0a588;
 }
 
 footer {
     height: 5vh;
-    background-color: #141b0c;
+    background-color: #161616;
     color: #FEFAE0;
     display: flex;
     justify-content: flex-end;
@@ -36,65 +31,16 @@ footer {
     }
 }
 
+.btn-primary {
+    background-color: #DDA15E;
+    border: none;
+    color: #141b0c;
+    &:hover {
+        background-color: #BC6C25;
+        color: #141b0c;
+    }
+}
+
 .container {
     padding: 50px 20px 20px;
-}
-
-.card {
-    background-color: #BC6C25;
-    border-radius: 20px;
-    margin-bottom: 50px;
-    img {
-        height: 300px;
-        width: 270px;
-        object-fit: cover;
-        margin: 8px auto 0;
-        border-radius: 12px;
-    }
-    p {
-        height: 65px;
-        overflow-y: hidden;
-    }
-    .btn {
-        width: 100%;
-        margin: 10px 0 0;
-        border-radius: 10px;
-    }
-    .card-title {
-        margin-left: 5px;
-    }
-}
-
-.phoneDetails {
-    color: #283618;
-    background-color: #DDA15E;
-    border: 3px solid #FEFAE0;
-    padding: 15px 0;
-    flex-wrap: wrap-reverse;
-    img {
-        width: 70%;
-        margin-bottom: 15px;
-    }
-}
-
-
-@media screen and (min-width: 768px) {
-
-    .phoneDetails img {
-        width: 100%;
-        margin: 0;
-    }
-
-    .phoneDetails p {
-        text-align: right;
-    }
-
-}
-
-@media screen and (min-width: 1200px) {
-
-    .container {
-        max-width: 960px;
-    }
-
 }

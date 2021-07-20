@@ -2,16 +2,11 @@ import { Link, NavLink } from 'react-router-dom'
 
 import { Navbar, Nav } from 'react-bootstrap'
 
-import logo from "./my-icon.png"
-
-const Navigation = (props) => {
+const Navigation = () => {
     return (
         <Navbar expand="lg" fixed="top">
             <Link to="/">
-                <img src={logo} alt="logo">
-                </img>
-                <Navbar.Brand>
-                    aime's Playground</Navbar.Brand>
+                <Navbar.Brand>Prueba Técnica Wellness</Navbar.Brand>
             </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -19,8 +14,8 @@ const Navigation = (props) => {
                     <NavLink exact to="/">
                         <Nav.Link as="span">Home</Nav.Link>
                     </NavLink>
-                    <NavLink exact to="/teléfonos">
-                        <Nav.Link as="span">Phone list</Nav.Link>
+                    <NavLink exact to="/consumos">
+                        <Nav.Link as="span">Lista de consumos por hora</Nav.Link>
                     </NavLink>
                 </Nav>
             </Navbar.Collapse>

@@ -5,16 +5,15 @@ const Use = require("../models/use.model")
 
 router.get('/', (req, res) => {
 
-    // Phone.find()
-    //     .select('_id id name imageFileName')
-    //     .then(phones => res.json({ message: phones }))
-    //     .catch((error) =>
-    //         res.status(500).json({
-    //             code: 500,
-    //             message: "Error buscando los teléfonos",
-    //             error: error.message,
-    //         })
-    //     )
+    Use.find()
+        .then(phones => res.json({ message: phones }))
+        .catch((error) =>
+            res.status(500).json({
+                code: 500,
+                message: "Error fetching usage",
+                error: error.message,
+            })
+        )
 })
 
 router.get('/:id', (req, res) => {
