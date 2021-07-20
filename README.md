@@ -4,15 +4,9 @@
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
 </p>
 
-I use this repo and its different versions to practice new stuff I'm learning.
+Technical test required by Wellness.
 
-Data is stored in MongoDB Atlas and served through an API REST built using Express.js and Node.js, and deployed to Heroku.
-
-Client was built with React using Hooks, React Bootstrap components and some Saas, and also deployed to Heroku.
-
-App can be accessed in the link below👇
-
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[Jaime's Playground](https://jaimes-playground.herokuapp.com/)
+Electricity usage CRUD built with React and DB seeded with three .csv files, served with NodeJS.
 
 <br/>
 
