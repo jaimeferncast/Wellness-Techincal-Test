@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 
-import { Table, Row, Col, Form, Dropdown, Button, Spinner } from "react-bootstrap"
+import { Table, Row, Col, Dropdown, Button, Spinner } from "react-bootstrap"
 
 import UsageEditor from "./UsageEditor"
 import UsageDelete from "./UsageDelete"
+import UsageGraph from "../UsageGraph/UsageGraph"
+import DateInput from "../../shared/DateInput"
 
 import UsageService from "../../../service/usage.service"
 
@@ -12,6 +14,7 @@ const UsageTable = () => {
   const [uses, setUses] = useState(null)
   const [initialDate, setInitialDate] = useState(null)
   const [finalDate, setFinalDate] = useState(null)
+  const [showGraph, setShowGraph] = useState(false)
 
   const usageService = new UsageService()
 
@@ -87,106 +90,87 @@ const UsageTable = () => {
   return (
     <>
       {!(uses && initialDate && finalDate)
-        ? <Spinner animation="grow" />
+        ? <Spinner animation="grow" style={{ marginTop: '100px' }} />
         : <>
-          <Row>
-            <Col xs={8}>
-              <Form>
-                <Form.Group>
-                  <span>Rango de fechas:</span>
-                  <Form.Control
-                    className="input year"
-                    type="text"
-                    value={initialDate.year}
-                    onChange={handleInitialDateChange}
-                    name="year"
-                  />
-                  <Form.Control
-                    className="input"
-                    type="text"
-                    value={initialDate.month}
-                    onChange={handleInitialDateChange}
-                    name="month"
-                  />
-                  <Form.Control
-                    className="input day"
-                    type="text"
-                    value={initialDate.day}
-                    onChange={handleInitialDateChange}
-                    name="day"
-                  />
-                  <span>-</span>
-                  <Form.Control
-                    className="input year"
-                    type="text"
-                    value={finalDate.year}
-                    onChange={handleFinalDateChange}
-                    name="year"
-                  />
-                  <Form.Control
-                    className="input"
-                    type="text"
-                    value={finalDate.month}
-                    onChange={handleFinalDateChange}
-                    name="month"
-                  />
-                  <Form.Control
-                    className="input day"
-                    type="text"
-                    value={finalDate.day}
-                    onChange={handleFinalDateChange}
-                    name="day"
-                  />
-                </Form.Group>
-              </Form>
+          <Row className="justify-content-md-center">
+            <Col xs="auto">
+              <DateInput
+                initialDate={initialDate}
+                finalDate={finalDate}
+                handleInitialDateChange={handleInitialDateChange}
+                handleFinalDateChange={handleFinalDateChange}
+              />
             </Col>
-            <Col xs={4}>
-              <Dropdown className="d-inline mx-2" variant="secondary">
-                <Dropdown.Toggle variant="info">
-                  Ordenar Por
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={sortByCostAsc}>Coste por hora (asc.)</Dropdown.Item>
-                  <Dropdown.Item onClick={sortByCostDesc}>Coste por hora (desc..)</Dropdown.Item>
-                  <Dropdown.Item onClick={sortByDateAsc}>Fecha (asc.)</Dropdown.Item>
-                  <Dropdown.Item onClick={sortByDateDesc}>Fecha (desc..)</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
+            {showGraph
+              ? <Col xs="auto">
+                <Button
+                  onClick={() => setShowGraph(false)}
+                  style={{ marginLeft: '35px', padding: '7px 15px' }}
+                >
+                  Ver Tabla
+                </Button>
+              </Col>
+              : <Col xs="auto">
+                <Dropdown className="d-inline mx-2" variant="secondary">
+                  <Dropdown.Toggle variant="info">
+                    Ordenar Por
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={sortByCostAsc}>Coste por hora (asc.)</Dropdown.Item>
+                    <Dropdown.Item onClick={sortByCostDesc}>Coste por hora (desc..)</Dropdown.Item>
+                    <Dropdown.Item onClick={sortByDateAsc}>Fecha (asc.)</Dropdown.Item>
+                    <Dropdown.Item onClick={sortByDateDesc}>Fecha (desc..)</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Button
+                  onClick={() => setShowGraph(true)}
+                  style={{ marginLeft: '35px', padding: '7px 15px' }}
+                >
+                  Ver Gráficos
+                </Button>
+              </Col>
+            }
           </Row>
-          <Table striped bordered hover size="sm">
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Consumo (Wh)</th>
-                <th>Precio (€/kWh)</th>
-                <th>Coste por hora (€)</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {uses
-                .filter((use) => {
-                  return Date.parse(use.Fecha) >= Date.parse(`${initialDate.year}-${initialDate.month}-${initialDate.day}`)
-                    && Date.parse(use.Fecha) <= Date.parse(`${finalDate.year}-${finalDate.month}-${finalDate.day}`)
-                })
-                .map((use, idx) => (
-                  <tr key={idx}>
-                    <td>{use.Fecha}</td>
-                    <td>{parseInt(use.Hora)}</td>
-                    <td>{parseInt(use['Consumo (Wh)'])}</td>
-                    <td>{parseFloat(use['Precio (€/kWh)']).toFixed(9)}</td>
-                    <td>{parseFloat(use['Coste por hora (€)']).toFixed(12)}</td>
-                    <td>
-                      <UsageEditor use={use} saveUse={(use) => saveUse(use, use._id, idx)} />
-                      <UsageDelete use={use} deleteUse={() => deleteUse(use._id, idx)} />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </Table>
+          {showGraph
+            ? <UsageGraph
+              uses={uses}
+              initialDate={initialDate}
+              finalDate={finalDate}
+            />
+            : <Table striped bordered hover size="sm">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Consumo (Wh)</th>
+                  <th>Precio (€/kWh)</th>
+                  <th>Coste por hora (€)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {uses
+                  .filter((use) => {
+                    return Date.parse(use.Fecha) >= Date.parse(`${initialDate.year}-${initialDate.month}-${initialDate.day}`)
+                      && Date.parse(use.Fecha) <= Date.parse(`${finalDate.year}-${finalDate.month}-${finalDate.day}`)
+                  })
+                  .slice(0, 50)
+                  .map((use, idx) => (
+                    <tr key={idx}>
+                      <td>{use.Fecha}</td>
+                      <td>{parseInt(use.Hora)}</td>
+                      <td>{parseInt(use['Consumo (Wh)'])}</td>
+                      <td>{parseFloat(use['Precio (€/kWh)']).toFixed(9)}</td>
+                      <td>{parseFloat(use['Coste por hora (€)']).toFixed(12)}</td>
+                      <td>
+                        <UsageEditor use={use} saveUse={(use) => saveUse(use, use._id, idx)} />
+                        <UsageDelete use={use} deleteUse={() => deleteUse(use._id, idx)} />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          }
         </>
       }
     </>
