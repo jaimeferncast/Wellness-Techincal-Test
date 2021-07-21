@@ -56,6 +56,8 @@ cd client; npm start;
 | Verb | Endpoint         | Result        |
 | ---- | ---------------- | ------------- |
 | GET  | "/"              | Home page     |
+| GET  | "/consumos"      | Data table for CRUD operations     |
+| GET  | "/graficos"      | Data visualisation page     |
 
 <br/>
 
@@ -64,6 +66,8 @@ cd client; npm start;
 | Verb | Endpoint            | Result                              |
 | ---- | ------------------- | ----------------------------------- |
 | GET  | "/api/uses"         | All uses json                       |
+| PUT  | "/api/:_id"         | Edit use                            |  
+| DELETE  | "/api/:_id"      | Delete use                          |  
 
 <br/>
 <hr>
