@@ -8,6 +8,8 @@ Technical test required by Wellness.
 
 Electricity usage CRUD built with React and DB seeded with three .csv files, served with NodeJS.
 
+Layout built with Bootstrap and data visualisation made with Recharts.
+
 <br/>
 
 ## Install
@@ -38,7 +40,7 @@ cd server/bin; node seed.js;
 In different terminals:
 
 ```sh
-cd server; npm run dev;
+cd server; npm run start;
 ```
 ```sh
 cd client; npm start;
