@@ -15,6 +15,7 @@ const UsageTable = () => {
   const [initialDate, setInitialDate] = useState(null)
   const [finalDate, setFinalDate] = useState(null)
   const [showGraph, setShowGraph] = useState(false)
+  const [page, setPage] = useState(1)
 
   const usageService = new UsageService()
 
@@ -48,6 +49,13 @@ const UsageTable = () => {
   const handleFinalDateChange = (e) => {
     const { value, name } = e.target
     setFinalDate({ ...finalDate, [name]: value })
+  }
+
+  const filterByDate = (uses) => {
+    return uses.filter((use) => {
+      return Date.parse(use.Fecha) >= Date.parse(`${initialDate.year}-${initialDate.month}-${initialDate.day}`)
+        && Date.parse(use.Fecha) <= Date.parse(`${finalDate.year}-${finalDate.month}-${(+finalDate.day + 1).toString()}`)
+    })
   }
 
   const sortByCostAsc = () => {
@@ -87,6 +95,11 @@ const UsageTable = () => {
       .catch((err) => alert("Se ha producido un error borrando el consumo.", err))
   }
 
+  const toggleGraph = () => {
+    sortByDateAsc()
+    setShowGraph(true)
+  }
+
   return (
     <>
       {!(uses && initialDate && finalDate)
@@ -123,7 +136,7 @@ const UsageTable = () => {
                   </Dropdown.Menu>
                 </Dropdown>
                 <Button
-                  onClick={() => setShowGraph(true)}
+                  onClick={toggleGraph}
                   style={{ marginLeft: '35px', padding: '7px 15px' }}
                 >
                   Ver Gráficos
@@ -131,11 +144,29 @@ const UsageTable = () => {
               </Col>
             }
           </Row>
+          <Row className="justify-content-md-center">
+            <Col xs="auto">
+              <Button
+                onClick={() => setPage(1)}
+                style={{ margin: '15px 20px 35px', padding: '7px 15px' }}
+                variant="info"
+                disabled={page === 1 ? true : false}
+              >
+                Página 1
+              </Button>
+              <Button
+                onClick={() => setPage(page - 1)}
+                style={{ margin: '15px 0 35px', padding: '7px 15px' }}
+                variant="info"
+                disabled={page === 1 ? true : false}
+              >
+                Página anterior
+              </Button>
+            </Col>
+          </Row>
           {showGraph
             ? <UsageGraph
-              uses={uses}
-              initialDate={initialDate}
-              finalDate={finalDate}
+              uses={filterByDate(uses).slice((page - 1) * 44, page * 44)}
             />
             : <Table striped bordered hover size="sm">
               <thead>
@@ -145,16 +176,12 @@ const UsageTable = () => {
                   <th>Consumo (Wh)</th>
                   <th>Precio (€/kWh)</th>
                   <th>Coste por hora (€)</th>
-                  <th></th>
+                  <th>Resultados por página: 45</th>
                 </tr>
               </thead>
               <tbody>
-                {uses
-                  .filter((use) => {
-                    return Date.parse(use.Fecha) >= Date.parse(`${initialDate.year}-${initialDate.month}-${initialDate.day}`)
-                      && Date.parse(use.Fecha) <= Date.parse(`${finalDate.year}-${finalDate.month}-${finalDate.day}`)
-                  })
-                  .slice(0, 50)
+                {filterByDate(uses)
+                  .slice((page - 1) * 44, page * 44)
                   .map((use, idx) => (
                     <tr key={idx}>
                       <td>{use.Fecha}</td>
@@ -171,6 +198,19 @@ const UsageTable = () => {
               </tbody>
             </Table>
           }
+          <Row className="justify-content-md-center">
+            <Col xs="auto">
+              <Button
+                onClick={() => setPage(page + 1)}
+                style={{ margin: '15px 0 35px', padding: '7px 15px' }}
+                variant="info"
+                disabled={(page) * 45 > filterByDate(uses).length ? true : false}
+              >
+                Página Siguiente
+              </Button>
+            </Col>
+          </Row>
+
         </>
       }
     </>
