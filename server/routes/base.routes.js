@@ -16,9 +16,9 @@ router.get('/', (req, res) => {
         )
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:_id', (req, res) => {
 
-    Use.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    Use.findByIdAndUpdate(req.params._id, req.body, { new: true })
         .then((response) => res.json(response))
         .catch((err) => res.status(500).json({ ...err, message: err.message }))
 })
